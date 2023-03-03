@@ -37,6 +37,10 @@ Test_Path_label = 'labels/test'
 # Define classes
 Classes = ['Platelets', 'RBC', 'WBC']
 
+# Define percent
+train_percent = 0.8
+test_percent = 0.2
+val_percent = train_percent * 0.2
 
 # This function can read single xml label document and add a single box into boxes
 def readXML(XMLPATH, boxes):
@@ -161,12 +165,12 @@ def gen_index(filename, num):
 def div_dataset(boxes):
     for box in boxes:
         filename = box['filename']
-        randNum = random.randint(1, 10)
-        if randNum == 1:
+        randNum = random.randint(1, 100)
+        if randNum <= val_percent * 100:
             gen_txt(box, Val_Path_label)
             gen_img(filename, Image_Path, Val_Path_img)
             gen_index(filename, 2)
-        elif randNum > 8:
+        elif randNum > train_percent * 100:
             gen_txt(box, Test_Path_label)
             gen_img(filename, Image_Path, Test_Path_img)
             gen_index(filename, 1)
@@ -182,11 +186,15 @@ def detect_path():
     for path in path_list:
         if os.path.exists(path):
             # path exists
-            print(os.listdir(path))
-            items = os.listdir(path)
-            for item in items:
-                os.remove(path+'/'+item)
-                print(path + '/' + item + ' has been removed')
+            # print(os.listdir(path))
+            if path in ['test.txt', 'train.txt', 'val.txt']:
+                os.remove(path)
+                print(path + ' has been removed')
+            else:
+                items = os.listdir(path)
+                for item in items:
+                    os.remove(path+'/'+item)
+                    print(path + '/' + item + ' has been removed')
         else:
             # path do not exist
             print("path not found, creating path: " + path)
