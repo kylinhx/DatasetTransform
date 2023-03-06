@@ -19,27 +19,18 @@ The main functions of the program are:
 
 Finally, the program divides the dataset into training, validation, and testing sets according to the percentages defined earlier, and generates text files and copies image files for each set using the functions defined above.
   
-  
-  这是一个将XML标签转换为边框框的Python程序，用于机器学习中物体检测的数据集制作。
+  使用说明：
 
-  该程序主要实现以下功能：
+1. 首先将需要转化为YOLO格式的标注文件以及对应的图片文件放在同一个文件夹中，例如“Annotations”和“JPEGImages”。
+2. 修改代码中“Annotations_Path”和“Image_Path”为对应文件夹的路径。
+3. 可以在“Classes”中定义物体的类别，根据实际情况修改。
+4. 根据需要调整“train_percent”和“test_percent”来设置训练集和测试集的比例。
+5. 运行代码，将会生成三个文件夹：train，test，val。其中train文件夹包含用于训练的图片，test文件夹包含用于测试的图片，val文件夹包含用于验证的图片。
+6. 每张图片会对应一个txt标注文件，文件格式为每行为一个物体的标注，由五个数字组成：第一个数字是物体类别的序号，后四个数字是物体在图片中的位置信息，分别为中心坐标x、中心坐标y、宽度和高度。
+7. 如果需要查看数据分割的结果，可以在“train.txt”，“test.txt”，“val.txt”中查看对应的图片文件名。
 
-  1.从XML标签中读取单个标签文件，并将单个边框添加到“boxes”列表中；
-  
-  2.获取指定路径中的所有XML文件名，读取所有XML文件，并将所有边框添加到“boxes”列表中；
-  
-  3.将“boxes”列表中的边框转换为YOLO格式，并生成txt文件；
-  
-  4.按照一定的比例将数据集分为训练集、测试集和验证集，并将它们保存到不同的路径中；
+注意事项：
 
-  5.根据所得到的训练集、测试集和验证集的文件名生成索引文件train.txt、test.txt和val.txt，便于后续训练模型。
-
-  该程序使用了以下库：
-
-  1.os：与操作系统交互；
-  
-  2.xml.dom.minidom：用于解析XML文件；
-  
-  3.random：生成随机数；
-  
-  4.shutil：高级文件操作工具。
+1. 请务必备份原始数据，以免误操作造成数据丢失。
+2. 需要安装minidom模块，如果未安装请先安装该模块。
+3. 需要确保所有的标注文件的格式符合VOC数据集格式，即文件格式为.xml，文件中包含了对应图片的标注信息。
